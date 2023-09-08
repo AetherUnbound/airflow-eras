@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 from airflow import DAG
 from airflow.operators.dummy_operator import DummyOperator
 from airflow.operators.python_operator import PythonOperator, BranchPythonOperator
