@@ -14,7 +14,8 @@ def determine_seed(**context):
     # First get from Variables
     seed = Variable.get("seed", deserialize_json=True, default_var=0)
     # Override with context if provided, defaulting to current time if not
-    seed = context["dag_run"].conf.get("seed", seed or int(time.time()))
+    conf = context["dag_run"].conf or {}
+    seed = conf.get("seed", seed or int(time.time()))
     return seed
 
 

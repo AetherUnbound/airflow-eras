@@ -17,7 +17,6 @@ default_args = {
     "email_on_retry": False,
     "retries": 1,
     "retry_delay": timedelta(minutes=5),
-    "catchup": False,
 }
 
 dag = DAG("airflow_eras", default_args=default_args, schedule_interval=None)
