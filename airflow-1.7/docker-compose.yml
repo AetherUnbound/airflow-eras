@@ -6,10 +6,17 @@ services:
             - POSTGRES_USER=airflow
             - POSTGRES_PASSWORD=airflow
             - POSTGRES_DB=airflow
+        volumes:
+          - postgres:/var/lib/postgresql/data
+
 
     webserver:
         image: puckel/docker-airflow:1.7.1.3-7
+        # Necessary to override hostname when running local executor without celery
+        # otherwise logs fail to load entirely
+        hostname: airflow
         restart: always
+        user: root
         depends_on:
             - postgres
         environment:
@@ -18,6 +25,7 @@ services:
             - FERNET_KEY=9IoTgQ_EJ0hCsamBU3Mctc7F9OkODnndOKCwkwXCAA
         volumes:
             - ./dags:/usr/local/airflow/dags
+            - logs:/usr/local/airflow/logs
         ports:
             - "9090:8080"
         command: webserver
@@ -25,12 +33,22 @@ services:
     scheduler:
         image: puckel/docker-airflow:1.7.1.3-7
         restart: always
+        user: root
+        # Necessary to override hostname when running local executor without celery
+        # otherwise logs fail to load entirely
+        hostname: airflow
         depends_on:
             - webserver
         volumes:
             - ./dags:/usr/local/airflow/dags
+            - logs:/usr/local/airflow/logs
         environment:
+            - PYTHONUNBUFFERED=1
             - LOAD_EX=n
             - FERNET_KEY=9IoTgQ_EJ0hCsamBU3Mctc7F9OkODnndOKCwkwXCAA
             - EXECUTOR=Local
-        command: scheduler -n 5
+        command: scheduler
+
+volumes:
+  logs:
+  postgres:
