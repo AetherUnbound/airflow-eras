@@ -22,19 +22,6 @@ default_args = {
 
 dag = DAG("airflow_eras", default_args=default_args, schedule_interval=None)
 
-# t1, t2 and t3 are examples of tasks created by instantiating operators
-# t1 = BashOperator(
-#     task_id='print_date',
-#     bash_command='date',
-#     dag=dag)
-
-# Variable (then conf) as seed
-# Branch based on odd or even?
-# Generate 5 random numbers using seed
-# Each task does some "process" on them (fail if % 3?)
-# Gather all the numbers using DummyOperator and flow control
-# Report available numbers
-
 get_seed = PythonOperator(
     task_id="get_seed",
     python_callable=funcs.determine_seed,
