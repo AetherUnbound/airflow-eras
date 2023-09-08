@@ -8,8 +8,6 @@ from airflow.models import Variable
 
 TASK_COUNT = 5
 
-log = logging.getLogger(__name__)
-
 
 def determine_seed(conf):
     # First get from Variables
