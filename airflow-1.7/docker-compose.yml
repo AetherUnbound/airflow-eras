@@ -15,7 +15,7 @@ services:
         # Necessary to override hostname when running local executor without celery
         # otherwise logs fail to load entirely
         hostname: airflow
-        restart: always
+        restart: on-failure
         user: root
         depends_on:
             - postgres
@@ -32,7 +32,7 @@ services:
 
     scheduler:
         image: puckel/docker-airflow:1.7.1.3-7
-        restart: always
+        restart: on-failure
         user: root
         # Necessary to override hostname when running local executor without celery
         # otherwise logs fail to load entirely
